@@ -1,0 +1,6 @@
+imports:
+- path: barracuda-nextgen-firewall-f-series.jinja
+
+resources:
+- name: barracuda-nextgen-firewall-f-series
+  type: barracuda-nextgen-firewall-f-series.jinja
