@@ -99,10 +99,6 @@ input:
       title: Allow TINA VPN (UDP)
       section: NETWORKING
       boolean_group: FIREWALL
-    - name: enableTcp22
-      title: Allow SSH
-      section: NETWORKING
-      boolean_group: FIREWALL
     - name: enableTcp443
       title: Allow SSLVPN/CudaLaunch traffic
       section: NETWORKING
@@ -203,22 +199,6 @@ runtime:
         --allow udp:691
         --target-tags "{{ outputs().deployment }}-udp-691"
       showIf: '{{ !properties().enableUdp691 }}'
-    - heading: Open TCP port 22
-      description: >-
-        This firewall rule is not enabled.
-        To allow specific network traffic from the Internet,
-        create a firewall rule to open the TCP port 22
-        for target tag "{{ outputs().deployment }}-tcp-22".
-        <a href="https://cloud.google.com/compute/docs/networking">Learn more</a><br>
-        If you are using Google Cloud SDK, type the following command in
-        the terminal:
-      snippet: >-
-        gcloud --project={{ outputs().project }} compute firewall-rules
-        create "{{ outputs().deployment }}-tcp-22"
-        --network {{ properties().network }}
-        --allow tcp:22
-        --target-tags "{{ outputs().deployment }}-tcp-22"
-      showIf: '{{ !properties().enableTcp22 }}'
     - heading: Open TCP port 443
       description: >-
         This firewall rule is not enabled.
