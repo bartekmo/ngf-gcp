@@ -45,7 +45,7 @@ resources:
           - {{ deployment }}-tcp-691
           - {{ deployment }}-udp-691
           - {{ deployment }}-tcp-443
-		  - ngfw
+          - ngfw
   {% if properties["enableTcp807"] %}
   - name: {{ deployment }}-tcp-807
     type: compute.v1.firewall
