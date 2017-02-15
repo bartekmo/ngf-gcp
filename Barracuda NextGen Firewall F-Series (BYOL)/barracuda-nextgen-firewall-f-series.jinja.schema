@@ -88,9 +88,6 @@ properties:
   enableUdp691:
     type: boolean
     default: True
-  enableTcp22:
-    type: boolean
-    default: True
   enableTcp443:
     type: boolean
     default: True

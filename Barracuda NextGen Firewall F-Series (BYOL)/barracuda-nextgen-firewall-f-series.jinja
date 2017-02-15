@@ -44,8 +44,8 @@ resources:
           - {{ deployment }}-tcp-80
           - {{ deployment }}-tcp-691
           - {{ deployment }}-udp-691
-          - {{ deployment }}-tcp-22
           - {{ deployment }}-tcp-443
+          - ngfw
   {% if properties["enableTcp807"] %}
   - name: {{ deployment }}-tcp-807
     type: compute.v1.firewall
@@ -89,17 +89,6 @@ resources:
       allowed:
         - IPProtocol: UDP
           ports: ["691"]
-  {% endif %}
-  {% if properties["enableTcp22"] %}
-  - name: {{ deployment }}-tcp-22
-    type: compute.v1.firewall
-    properties:
-      network: {{ network }}
-      sourceRanges: ["0.0.0.0/0"]
-      targetTags: ["{{ deployment }}-tcp-22"]
-      allowed:
-        - IPProtocol: TCP
-          ports: ["22"]
   {% endif %}
   {% if properties["enableTcp443"] %}
   - name: {{ deployment }}-tcp-443
