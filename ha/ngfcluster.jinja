@@ -1,0 +1,52 @@
+resources:
+ - name: {{ properties[ 'boxName' ]}}
+   type: compute.v1.instance
+   properties:
+    zone: {{ properties[ 'zone1' ]}}
+    machineType: zones/{{ properties[ 'zone1' ]}}/machineTypes/n1-standard-1
+    canIpForward: Yes
+    disks:
+     - deviceName: boot
+       type: PERSISTENT
+       boot: true
+       autoDelete: true
+       initializeParams:
+         sourceImage: projects/barracuda-release/global/images/cudangfbyol-v711-056-hf843-hf844-20170926
+    networkInterfaces:
+     - network: {{ properties[ 'vpc1' ]}}
+       subnetwork: {{ properties[ 'subnet1' ]}}
+       accessConfigs:
+        - name: Mgmt Access
+          type: ONE_TO_ONE_NAT
+     - network: {{ properties[ 'vpc2' ]}}
+       subnetwork: {{ properties[ 'subnet2' ]}}
+    tags:
+      items:
+        - ngfw
+ - name: {{ properties[ 'boxName' ]}}-ha
+   type: compute.v1.instance
+   properties:
+    zone: {{ properties[ 'zone2' ]}}
+    machineType: zones/{{ properties[ 'zone2' ]}}/machineTypes/n1-standard-1
+    canIpForward: Yes
+    disks:
+     - deviceName: boot
+       type: PERSISTENT
+       boot: true
+       autoDelete: true
+       initializeParams:
+         sourceImage: projects/barracuda-release/global/images/cudangfbyol-v711-056-hf843-hf844-20170926
+    networkInterfaces:
+     - network: {{ properties[ 'vpc1' ]}}
+       subnetwork: {{ properties[ 'subnet1' ]}}
+       accessConfigs:
+         - name: Mgmt Access
+           type: ONE_TO_ONE_NAT
+     - network: {{ properties[ 'vpc2' ]}}
+       subnetwork: {{ properties[ 'subnet2' ]}}
+    tags:
+      items:
+        - ngfw
+outputs:
+  - name: primaryBoxLink
+    value: $(ref.{{ properties[ 'boxName' ]}}.selfLink)

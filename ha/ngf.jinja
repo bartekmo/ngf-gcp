@@ -1,0 +1,28 @@
+resources:
+ - name: {{ properties[ 'boxName' ]}}
+   type: compute.v1.instance
+   properties:
+    zone: {{ properties[ 'zone' ]}}
+    machineType: zones/{{ properties[ 'zone' ]}}/machineTypes/n1-standard-1
+    canIpForward: Yes
+    disks:
+     - deviceName: boot
+       type: PERSISTENT
+       boot: true
+       autoDelete: true
+       initializeParams:
+         sourceImage: projects/barracuda-release/global/images/cudangfbyol-v711-056-hf843-hf844-20170926
+    networkInterfaces:
+     - network: {{ properties[ 'vpc1' ]}}
+       subnetwork: {{ properties[ 'subnet1' ]}}
+       accessConfigs:
+        - name: Mgmt Access
+          type: ONE_TO_ONE_NAT
+     - network: {{ properties[ 'vpc2' ]}}
+       subnetwork: {{ properties[ 'subnet2' ]}}
+    tags:
+      items:
+        - ngfw
+outputs:
+  - name: boxLink
+    value: $(ref.{{ properties[ 'boxName' ]}}.selfLink)
