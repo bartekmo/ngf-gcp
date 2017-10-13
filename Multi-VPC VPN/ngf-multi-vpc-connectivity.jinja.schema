@@ -1,0 +1,40 @@
+info:
+  title: Barracuda NextGen Firewall - Multi-VPC Connectivity
+  description: Creates a hub VPC with NGF instance, which can be peered with additional VPCs to build connectivity between Google Cloud and remote locations.
+  version: 1.0
+  author: bmoczulski@barracuda.compute
+
+imports:
+- ngf-multi-vpc-connectivity.jinja
+
+ required:
+-
+
+properties:
+  vpcName:
+    type: string
+    description: Name of hub VPC
+    default: vpn-hub-vpc
+  vpcIpRange:
+    type: string
+    description: IP range (CIDR) for Hub VPC. Keep it small, you will not have a lot of resources here
+  ngfVPNRange:
+    type: string
+    description: IP range (CIDR) to be available via firewall. This range should cover ALL of your networks outside GCP
+  ngfRemoteAccessRange:
+    type: string
+    description: IP range (CIDR) for remote access (client to site VPN) range
+  instanceName:
+    type: string
+    description: Name of the firewall instance
+  instanceSize:
+    type: string
+    description: Instance type to use for firewall
+    default: n1-standard-1
+  region:
+    type: string
+    description: Compute region to deploy to
+  zone:
+    type: string
+    description: Availability zone to deploy to
+    metadata: gce-zone
