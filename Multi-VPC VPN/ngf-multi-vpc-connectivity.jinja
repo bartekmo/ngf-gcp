@@ -13,7 +13,6 @@ resources:
       ipRange: {{ properties[ 'vpcIpRange' ]}}
       region: {{ properties[ 'region' ]}}
       ipAliasRange: {{ properties[ 'ngfVPNRange' ]}}
-      ipAliasPvpnRange: {{ properties[ 'ngfRemoteAccessRange' ]}}
       peerings: {{ properties[ 'vpcPeeringsList' ]}}
   - name: ngf
     type: ngf.jinja
@@ -24,4 +23,3 @@ resources:
       vpc: $(ref.hubVpc.vpcLink)
       subnet: $(ref.hubVpc.subnetLink)
       s2sRange: {{ properties[ 'ngfVPNRange' ]}}
-      c2sRange: {{ properties[ 'ngfRemoteAccessRange' ]}}

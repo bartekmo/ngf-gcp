@@ -3,7 +3,7 @@ resources:
    type: compute.v1.network
    properties:
     autoCreateSubnetworks: No
-   peerings: {{ properties[ 'peerings' ]}}
+    peerings: {{ properties[ 'peerings' ]}}
  - name: {{ properties[ 'vpcName' ]}}subnet
    type: compute.v1.subnetwork
    properties:

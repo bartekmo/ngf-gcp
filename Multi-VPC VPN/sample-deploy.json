@@ -1,11 +1,11 @@
 imports:
- - ngf-multi-vpc-connectivity.jinja
+ - path: ngf-multi-vpc-connectivity.jinja
 
 resources:
  - name: ngf-multi-vpc-connectivity-deployment
    type: ngf-multi-vpc-connectivity.jinja
    properties:
-    - vpcName: bam-vpc-vpn-hub
+      vpcName: bam-vpc-vpn-hub
       vpcIpRange: 10.1.0.0/25
       ngfVPNRange: 10.0.0.0/16
       ngfRemoteAccessRange: 10.1.0.128/25

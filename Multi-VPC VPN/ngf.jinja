@@ -19,10 +19,8 @@ resources:
         - name: Mgmt Access
           type: ONE_TO_ONE_NAT
        aliasIpRanges:
-        - subnetworkRangeName: VPN Routes
+        - subnetworkRangeName: ngf-vpn-route
           ipCidrRange: {{ properties[ 's2sRange' ]}}
-        - subnetworkRangeName: Remote Access range
-          ipCidrRange: {{ properties[ 'c2sRange' ]}}
     tags:
       items:
         - ngfw
