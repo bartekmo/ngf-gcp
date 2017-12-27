@@ -3,14 +3,14 @@
 {% set project = env["project"] %}
 {% set deployment = env["deployment"] %}
 {% set name = "%s-vm-tmpl" % env["name"] %}
-{% set instanceName = "%s-vm" % deployment %}
+{% set instanceName = properties["instanceName"] %}
 {% set zone = properties["zone"] %}
 {% set machineType = properties["machineType"] %}
 {% set network = path_utils.networkPath(properties["network"]) %}
 {% set subnetwork = properties["subnetwork"] %}
 {% set bootDiskType = properties["bootDiskType"] %}
 {% set bootDiskSizeGb = properties["bootDiskSizeGb"] %}
-{% set hasExternalIP = properties["externalIP"] != "None" %}
+{% set hasExternalIP = "Ephemeral" %}
 {# Software status only works if the VM has an external IP. #}
 {% set enableStatusWaiter = hasExternalIP %}
 {% set canIpForward = "On" %}

@@ -82,6 +82,8 @@ description:
           version: 7.2.0
 input:
   properties:
+    - name: instanceName
+      title: Instance Name
     - name: zone
       title: Zone
     - name: machineType
@@ -89,37 +91,33 @@ input:
     - name: bootDiskType
       title: Boot disk type
       section: BOOT_DISK
+      level: 1
     - name: bootDiskSizeGb
       title: Boot disk size in GB
       section: BOOT_DISK
+      level: 1
     - name: network
       title: Network name
       section: NETWORKING
     - name: subnetwork
       title: Subnetwork name
       section: NETWORKING
-    - name: externalIP
-      title: External IP
-      tooltip: 'An external IP address associated with this instance. Selecting "None" will result in the instance having no external internet access. <a href="https://cloud.google.com/compute/docs/configure-instance-ip-addresses">Learn more</a>'
-      section: NETWORKING
-      level: 1
     - name: adminSourceRanges
-      title: Source IP ranges for management traffic
+      title: ACL for management traffic
       tooltip: 'Management access is only allowed from sources within these IP address ranges. Use CIDR notation when entering ranges. <a href="https://cloud.google.com/compute/docs/networking#firewalls">Learn more</a>'
       placeholder: '0.0.0.0/0, 192.169.0.2/24'
-      section: NETWORKING
-      level: 1
+      section: FIREWALL
+
   sections:
-    - name: BOOT_DISK
-      title: Boot Disk
-      tooltip: Each instance requires a disk to boot from.
     - name: NETWORKING
       title: Networking
-  boolean_groups:
     - name: FIREWALL
       title: Firewall
       tooltip: 'By default all incoming traffic from outside a network is blocked. Select the type of network traffic you want to allow. <a href="https://cloud.google.com/compute/docs/networking#firewalls">Learn more</a>'
-      subtext: Add tags and firewall rules to allow specific network traffic from the Internet
+      subtext: 'Following traffic necessary for Control Center operations will be automatically allowed: TCP 806, TCP 807, TCP 692, UDP 692. It is recommended you restrict access to management ports (TCP 806/807) using the ACL below'
+    - name: BOOT_DISK
+      title: Boot Disk
+      tooltip: Each instance requires a disk to boot from.
 runtime:
   deployingMessage: Deployment can take several minutes to complete.
   applicationTable:
@@ -140,25 +138,7 @@ runtime:
     action: '{{ outputs().vmSelfLink }}'
   suggestedActions:
     - heading: Request a license
-      description: 'This is a BYOL solution which requires a valid license to use. <a href="true">Request a license</a>'
-    - heading: Request a license
-      description: 'This is a BYOL solution which requires a valid license to use. <a href="true">Request a license</a>'
-    - heading: Open TCP port 807 traffic
-      description: 'This firewall rule is not enabled. To allow specific network traffic from the Internet, create a firewall rule to open TCP port 807 traffic for target tag "{{ outputs().deployment }}-tcp-807". <a href="https://cloud.google.com/compute/docs/networking">Learn more</a><br> If you are using Google Cloud SDK, type the following command in the terminal:'
-      snippet: 'gcloud --project={{ outputs().project }} compute firewall-rules create "{{ outputs().deployment }}-tcp-807" --network {{ properties().network }} --allow tcp:807 --target-tags "{{ outputs().deployment }}-tcp-807"'
-      showIf: '{{ !properties().enableTcp807 }}'
-    - heading: Open TCP port 806 traffic
-      description: 'This firewall rule is not enabled. To allow specific network traffic from the Internet, create a firewall rule to open TCP port 806 traffic for target tag "{{ outputs().deployment }}-tcp-806". <a href="https://cloud.google.com/compute/docs/networking">Learn more</a><br> If you are using Google Cloud SDK, type the following command in the terminal:'
-      snippet: 'gcloud --project={{ outputs().project }} compute firewall-rules create "{{ outputs().deployment }}-tcp-806" --network {{ properties().network }} --allow tcp:806 --target-tags "{{ outputs().deployment }}-tcp-806"'
-      showIf: '{{ !properties().enableTcp806 }}'
-    - heading: Open TCP port 692 traffic
-      description: 'This firewall rule is not enabled. To allow specific network traffic from the Internet, create a firewall rule to open TCP port 692 traffic for target tag "{{ outputs().deployment }}-tcp-692". <a href="https://cloud.google.com/compute/docs/networking">Learn more</a><br> If you are using Google Cloud SDK, type the following command in the terminal:'
-      snippet: 'gcloud --project={{ outputs().project }} compute firewall-rules create "{{ outputs().deployment }}-tcp-692" --network {{ properties().network }} --allow tcp:692 --target-tags "{{ outputs().deployment }}-tcp-692"'
-      showIf: '{{ !properties().enableTcp692 }}'
-    - heading: Open UDP port 692 traffic
-      description: 'This firewall rule is not enabled. To allow specific network traffic from the Internet, create a firewall rule to open UDP port 692 traffic for target tag "{{ outputs().deployment }}-udp-692". <a href="https://cloud.google.com/compute/docs/networking">Learn more</a><br> If you are using Google Cloud SDK, type the following command in the terminal:'
-      snippet: 'gcloud --project={{ outputs().project }} compute firewall-rules create "{{ outputs().deployment }}-udp-692" --network {{ properties().network }} --allow udp:692 --target-tags "{{ outputs().deployment }}-udp-692"'
-      showIf: '{{ !properties().enableUdp692 }}'
+      description: 'This is a BYOL solution which requires a valid license to use. <a href="https://www.barracuda.com/purchase/evaluation/product/bnccld">Request a 30-days evaluation license</a>'
     - heading: Change the temporary password
       description: 'For additional security, it is recommended that you change the password.'
     - heading: Assign a static external IP address to your VM instance
