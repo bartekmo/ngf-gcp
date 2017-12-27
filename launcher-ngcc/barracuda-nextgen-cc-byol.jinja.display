@@ -1,0 +1,209 @@
+description:
+  author:
+    title: 'Barracuda Networks, Inc.'
+    descriptionHtml: >-
+      The Barracuda NextGen Firewall F-Series fills the functional gaps between
+      cloud infrastructure security and a defense-in-depth strategy by providing
+      protection where the application and data reside, rather than solely where
+      the connection terminates. Because of the isolation between VMs, tenants,
+      and virtual networks, the Barracuda NextGen Firewall F-Series operates just
+      as if it were a physical device bridging connections between application
+      servers in a network DMZ and your ISP’s router.
+
+
+
+      Beyond its powerful network firewall, high availability, and VPN
+      technologies, the Barracuda NextGen Firewall F-Series integrates
+      a comprehensive set of next-generation firewall technologies, including
+      Application Control, IPS, anti-malware, network access control enforcement,
+      and comprehensive user awareness.
+
+
+
+      The Barracuda NextGen Firewall F-Series meets enterprise requirements of
+      massive scalability, efficient configuration and lifecycle management
+      across dispersed networks, and performance guarantees for business-critical
+      applications.
+    shortDescription: 'Barracuda Networks offers industry-leading solutions designed to solve mainstream IT problems efficiently and cost-effectively, while maintaining a level of customer support and satisfaction second to none.'
+    url: 'https://www.barracuda.com/'
+  descriptionHtml: >-
+    <p>Barracuda Control Center allows for centralized management of hundreds of
+
+          Barracuda NextGen Firewalls regardless of their location and form
+    factor.
+
+          Centrally managed firewalls benefit from shared configuration,
+    easy-to-use
+
+          VPN tunnels editor, consistent policies and better administrative
+    privilege
+
+          control. One stop monitoring features include central status
+    dashboard,
+
+          aggregated logs, statistics and many others.
+
+    </p>
+
+    <p>
+
+    The Barracuda NextGen Firewall F-Series fills the functional gaps between
+
+          cloud infrastructure security and a defense-in-depth strategy by
+    providing
+
+          protection where the application and data reside, rather than solely
+    where
+
+          the connection terminates. Because of the isolation between VMs,
+    tenants,
+
+          and virtual networks, the Barracuda NextGen Firewall F-Series operates
+    just
+
+          as if it were a physical device bridging connections between
+    application
+
+          servers in a network DMZ and your ISP’s router.
+
+    </p>
+  logo: '@media/barracuda-nextgen-cc-byol_store.png'
+  tagline: Single pane of glass for your Barracuda NextGen Firewalls
+  title: Barracuda NextGen Control Center
+  url: 'https://www.barracuda.com/googlecloud'
+  version: 7.2.0-158-20171219
+  support:
+    - title: Support
+  icon: '@media/barracuda-nextgen-cc-byol_small.png'
+  softwareGroups:
+    - type: SOFTWARE_GROUP_OS
+      software:
+        - title: Barracuda NextGen Firewall
+          version: 7.2.0
+input:
+  properties:
+    - name: zone
+      title: Zone
+    - name: machineType
+      title: Machine type
+    - name: bootDiskType
+      title: Boot disk type
+      section: BOOT_DISK
+    - name: bootDiskSizeGb
+      title: Boot disk size in GB
+      section: BOOT_DISK
+    - name: network
+      title: Network name
+      section: NETWORKING
+    - name: subnetwork
+      title: Subnetwork name
+      section: NETWORKING
+    - name: externalIP
+      title: External IP
+      tooltip: 'An external IP address associated with this instance. Selecting "None" will result in the instance having no external internet access. <a href="https://cloud.google.com/compute/docs/configure-instance-ip-addresses">Learn more</a>'
+      section: NETWORKING
+      level: 1
+    - name: tcp807SourceRanges
+      title: Source IP ranges for TCP port 807 traffic
+      tooltip: 'Traffic is only allowed from sources within these IP address ranges. Use CIDR notation when entering ranges. <a href="https://cloud.google.com/compute/docs/networking#firewalls">Learn more</a>'
+      placeholder: '0.0.0.0/0, 192.169.0.2/24'
+      section: NETWORKING
+      level: 1
+    - name: tcp806SourceRanges
+      title: Source IP ranges for TCP port 806 traffic
+      tooltip: 'Traffic is only allowed from sources within these IP address ranges. Use CIDR notation when entering ranges. <a href="https://cloud.google.com/compute/docs/networking#firewalls">Learn more</a>'
+      placeholder: '0.0.0.0/0, 192.169.0.2/24'
+      section: NETWORKING
+      level: 1
+    - name: tcp692SourceRanges
+      title: Source IP ranges for TCP port 692 traffic
+      tooltip: 'Traffic is only allowed from sources within these IP address ranges. Use CIDR notation when entering ranges. <a href="https://cloud.google.com/compute/docs/networking#firewalls">Learn more</a>'
+      placeholder: '0.0.0.0/0, 192.169.0.2/24'
+      section: NETWORKING
+      level: 1
+    - name: udp692SourceRanges
+      title: Source IP ranges for UDP port 692 traffic
+      tooltip: 'Traffic is only allowed from sources within these IP address ranges. Use CIDR notation when entering ranges. <a href="https://cloud.google.com/compute/docs/networking#firewalls">Learn more</a>'
+      placeholder: '0.0.0.0/0, 192.169.0.2/24'
+      section: NETWORKING
+      level: 1
+    - name: enableTcp807
+      title: Allow TCP port 807 traffic
+      section: NETWORKING
+      boolean_group: FIREWALL
+    - name: enableTcp806
+      title: Allow TCP port 806 traffic
+      section: NETWORKING
+      boolean_group: FIREWALL
+    - name: enableTcp692
+      title: Allow TCP port 692 traffic
+      section: NETWORKING
+      boolean_group: FIREWALL
+    - name: enableUdp692
+      title: Allow UDP port 692 traffic
+      section: NETWORKING
+      boolean_group: FIREWALL
+    - name: ipForward
+      title: IP forwarding
+      tooltip: 'Forwarding allows the instance to help route packets. <a href="https://cloud.google.com/compute/docs/networking#canipforward">Learn more</a>'
+      section: NETWORKING
+      level: 1
+  sections:
+    - name: BOOT_DISK
+      title: Boot Disk
+      tooltip: Each instance requires a disk to boot from.
+    - name: NETWORKING
+      title: Networking
+  boolean_groups:
+    - name: FIREWALL
+      title: Firewall
+      tooltip: 'By default all incoming traffic from outside a network is blocked. Select the type of network traffic you want to allow. <a href="https://cloud.google.com/compute/docs/networking#firewalls">Learn more</a>'
+      subtext: Add tags and firewall rules to allow specific network traffic from the Internet
+runtime:
+  deployingMessage: Deployment can take several minutes to complete.
+  applicationTable:
+    rows:
+      - label: Admin user
+        value: root
+      - label: Admin password (Temporary)
+        value: '{{ outputs().password0 }}'
+      - label: Instance
+        value: '<a href="{{ consoleUrl(outputs().vmSelfLink) }}">{{ outputs().vmName }}</a>'
+      - label: Instance zone
+        value: '{{ properties().zone }}'
+      - label: Instance machine type
+        value: '{{ properties().machineType }}'
+  primaryButton:
+    label: SSH
+    type: TYPE_GCE_VM_SSH
+    action: '{{ outputs().vmSelfLink }}'
+  suggestedActions:
+    - heading: Request a license
+      description: 'This is a BYOL solution which requires a valid license to use. <a href="true">Request a license</a>'
+    - heading: Request a license
+      description: 'This is a BYOL solution which requires a valid license to use. <a href="true">Request a license</a>'
+    - heading: Open TCP port 807 traffic
+      description: 'This firewall rule is not enabled. To allow specific network traffic from the Internet, create a firewall rule to open TCP port 807 traffic for target tag "{{ outputs().deployment }}-tcp-807". <a href="https://cloud.google.com/compute/docs/networking">Learn more</a><br> If you are using Google Cloud SDK, type the following command in the terminal:'
+      snippet: 'gcloud --project={{ outputs().project }} compute firewall-rules create "{{ outputs().deployment }}-tcp-807" --network {{ properties().network }} --allow tcp:807 --target-tags "{{ outputs().deployment }}-tcp-807"'
+      showIf: '{{ !properties().enableTcp807 }}'
+    - heading: Open TCP port 806 traffic
+      description: 'This firewall rule is not enabled. To allow specific network traffic from the Internet, create a firewall rule to open TCP port 806 traffic for target tag "{{ outputs().deployment }}-tcp-806". <a href="https://cloud.google.com/compute/docs/networking">Learn more</a><br> If you are using Google Cloud SDK, type the following command in the terminal:'
+      snippet: 'gcloud --project={{ outputs().project }} compute firewall-rules create "{{ outputs().deployment }}-tcp-806" --network {{ properties().network }} --allow tcp:806 --target-tags "{{ outputs().deployment }}-tcp-806"'
+      showIf: '{{ !properties().enableTcp806 }}'
+    - heading: Open TCP port 692 traffic
+      description: 'This firewall rule is not enabled. To allow specific network traffic from the Internet, create a firewall rule to open TCP port 692 traffic for target tag "{{ outputs().deployment }}-tcp-692". <a href="https://cloud.google.com/compute/docs/networking">Learn more</a><br> If you are using Google Cloud SDK, type the following command in the terminal:'
+      snippet: 'gcloud --project={{ outputs().project }} compute firewall-rules create "{{ outputs().deployment }}-tcp-692" --network {{ properties().network }} --allow tcp:692 --target-tags "{{ outputs().deployment }}-tcp-692"'
+      showIf: '{{ !properties().enableTcp692 }}'
+    - heading: Open UDP port 692 traffic
+      description: 'This firewall rule is not enabled. To allow specific network traffic from the Internet, create a firewall rule to open UDP port 692 traffic for target tag "{{ outputs().deployment }}-udp-692". <a href="https://cloud.google.com/compute/docs/networking">Learn more</a><br> If you are using Google Cloud SDK, type the following command in the terminal:'
+      snippet: 'gcloud --project={{ outputs().project }} compute firewall-rules create "{{ outputs().deployment }}-udp-692" --network {{ properties().network }} --allow udp:692 --target-tags "{{ outputs().deployment }}-udp-692"'
+      showIf: '{{ !properties().enableUdp692 }}'
+    - heading: Change the temporary password
+      description: 'For additional security, it is recommended that you change the password.'
+    - heading: Assign a static external IP address to your VM instance
+      description: 'An ephemeral external IP address has been assigned to the VM instance. If you require a static external IP address, you may promote the address to static. <a href="https://cloud.google.com/compute/docs/instances-and-network#promote_ephemeral_ip">Learn more</a>'
+      showIf: '{{ properties().externalIP == "Ephemeral" }}'
+annotations:
+  autogenSpecType: SINGLE_VM
+  vmImage0: 'https://www.googleapis.com/compute/v1/projects/barracuda-release/global/images/cudangccbyol-v720-158-20171219'
+metadata_version: v1
