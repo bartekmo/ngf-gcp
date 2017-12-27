@@ -54,12 +54,6 @@ properties:
       - Ephemeral
       - None
     default: Ephemeral
-  ipForward:
-    type: string
-    enum:
-      - 'On'
-      - 'Off'
-    default: 'On'
   bootDiskType:
     type: string
     default: pd-ssd
@@ -68,32 +62,14 @@ properties:
       zoneProperty: zone
   bootDiskSizeGb:
     type: integer
-    default: 10
-    minimum: 250
+    default: 80
+    minimum: 80
     maximum: 10000
     x-googleProperty:
       type: GCE_DISK_SIZE
       gceDiskSize:
         diskTypeProperty: bootDiskType
-  enableTcp807:
-    type: boolean
-    default: True
-  enableTcp806:
-    type: boolean
-    default: True
-  enableTcp692:
-    type: boolean
-    default: True
-  enableUdp692:
-    type: boolean
-    default: True
-  tcp807SourceRanges:
-    type: string
-  tcp806SourceRanges:
-    type: string
-  tcp692SourceRanges:
-    type: string
-  udp692SourceRanges:
+  adminSourceRanges:
     type: string
 
 outputs:

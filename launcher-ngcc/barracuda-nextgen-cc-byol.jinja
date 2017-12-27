@@ -13,7 +13,7 @@
 {% set hasExternalIP = properties["externalIP"] != "None" %}
 {# Software status only works if the VM has an external IP. #}
 {% set enableStatusWaiter = hasExternalIP %}
-{% set canIpForward = properties["ipForward"] == "On" %}
+{% set canIpForward = "On" %}
 
 resources:
   - name: {{ name }}
@@ -44,87 +44,39 @@ resources:
             value: $(ref.generated-password-0.password)
       tags:
         items:
-          - {{ env["deployment"] }}-tcp-807
-          - {{ env["deployment"] }}-tcp-806
-          - {{ env["deployment"] }}-tcp-692
-          - {{ env["deployment"] }}-udp-692
+          - {{ env["deployment"] }}-ngcc
   - name: generated-password-0
     type: password.py
     properties:
       length: 8
       includeSymbols: True
-  {% if properties["enableTcp807"] %}
-  - name: {{ env["deployment"] }}-tcp-807
+  - name: {{ env["deployment"] }}-ngcc-mgmt
     type: compute.v1.firewall
     properties:
       network: {{ network }}
-      {% if properties.get("tcp807SourceRanges") %}
+      {% if properties.get("adminSourceRanges") %}
       sourceRanges:
-        {% for source in properties["tcp807SourceRanges"].split(',') %}
+        {% for source in properties["adminSourceRanges"].split(',') %}
         - '{{ source | trim }}'
         {% endfor %}
       {% else %}
       sourceRanges: ["0.0.0.0/0"]
       {% endif %}
-      targetTags: ["{{ env["deployment"] }}-tcp-807"]
+      targetTags: ["{{ env["deployment"] }}-ngcc"]
       allowed:
         - IPProtocol: TCP
-          ports: ["807"]
-  {% endif %}
-  {% if properties["enableTcp806"] %}
-  - name: {{ env["deployment"] }}-tcp-806
+          ports: ["807","806"]
+  - name: {{ env["deployment"] }}-ngcc-mvpn
     type: compute.v1.firewall
     properties:
       network: {{ network }}
-      {% if properties.get("tcp806SourceRanges") %}
-      sourceRanges:
-        {% for source in properties["tcp806SourceRanges"].split(',') %}
-        - '{{ source | trim }}'
-        {% endfor %}
-      {% else %}
       sourceRanges: ["0.0.0.0/0"]
-      {% endif %}
-      targetTags: ["{{ env["deployment"] }}-tcp-806"]
-      allowed:
-        - IPProtocol: TCP
-          ports: ["806"]
-  {% endif %}
-  {% if properties["enableTcp692"] %}
-  - name: {{ env["deployment"] }}-tcp-692
-    type: compute.v1.firewall
-    properties:
-      network: {{ network }}
-      {% if properties.get("tcp692SourceRanges") %}
-      sourceRanges:
-        {% for source in properties["tcp692SourceRanges"].split(',') %}
-        - '{{ source | trim }}'
-        {% endfor %}
-      {% else %}
-      sourceRanges: ["0.0.0.0/0"]
-      {% endif %}
-      targetTags: ["{{ env["deployment"] }}-tcp-692"]
+      targetTags: ["{{ env["deployment"] }}-ngcc"]
       allowed:
         - IPProtocol: TCP
           ports: ["692"]
-  {% endif %}
-  {% if properties["enableUdp692"] %}
-  - name: {{ env["deployment"] }}-udp-692
-    type: compute.v1.firewall
-    properties:
-      network: {{ network }}
-      {% if properties.get("udp692SourceRanges") %}
-      sourceRanges:
-        {% for source in properties["udp692SourceRanges"].split(',') %}
-        - '{{ source | trim }}'
-        {% endfor %}
-      {% else %}
-      sourceRanges: ["0.0.0.0/0"]
-      {% endif %}
-      targetTags: ["{{ env["deployment"] }}-udp-692"]
-      allowed:
         - IPProtocol: UDP
           ports: ["692"]
-  {% endif %}
 
 outputs:
   - name: deployment

@@ -103,49 +103,10 @@ input:
       tooltip: 'An external IP address associated with this instance. Selecting "None" will result in the instance having no external internet access. <a href="https://cloud.google.com/compute/docs/configure-instance-ip-addresses">Learn more</a>'
       section: NETWORKING
       level: 1
-    - name: tcp807SourceRanges
-      title: Source IP ranges for TCP port 807 traffic
-      tooltip: 'Traffic is only allowed from sources within these IP address ranges. Use CIDR notation when entering ranges. <a href="https://cloud.google.com/compute/docs/networking#firewalls">Learn more</a>'
+    - name: adminSourceRanges
+      title: Source IP ranges for management traffic
+      tooltip: 'Management access is only allowed from sources within these IP address ranges. Use CIDR notation when entering ranges. <a href="https://cloud.google.com/compute/docs/networking#firewalls">Learn more</a>'
       placeholder: '0.0.0.0/0, 192.169.0.2/24'
-      section: NETWORKING
-      level: 1
-    - name: tcp806SourceRanges
-      title: Source IP ranges for TCP port 806 traffic
-      tooltip: 'Traffic is only allowed from sources within these IP address ranges. Use CIDR notation when entering ranges. <a href="https://cloud.google.com/compute/docs/networking#firewalls">Learn more</a>'
-      placeholder: '0.0.0.0/0, 192.169.0.2/24'
-      section: NETWORKING
-      level: 1
-    - name: tcp692SourceRanges
-      title: Source IP ranges for TCP port 692 traffic
-      tooltip: 'Traffic is only allowed from sources within these IP address ranges. Use CIDR notation when entering ranges. <a href="https://cloud.google.com/compute/docs/networking#firewalls">Learn more</a>'
-      placeholder: '0.0.0.0/0, 192.169.0.2/24'
-      section: NETWORKING
-      level: 1
-    - name: udp692SourceRanges
-      title: Source IP ranges for UDP port 692 traffic
-      tooltip: 'Traffic is only allowed from sources within these IP address ranges. Use CIDR notation when entering ranges. <a href="https://cloud.google.com/compute/docs/networking#firewalls">Learn more</a>'
-      placeholder: '0.0.0.0/0, 192.169.0.2/24'
-      section: NETWORKING
-      level: 1
-    - name: enableTcp807
-      title: Allow TCP port 807 traffic
-      section: NETWORKING
-      boolean_group: FIREWALL
-    - name: enableTcp806
-      title: Allow TCP port 806 traffic
-      section: NETWORKING
-      boolean_group: FIREWALL
-    - name: enableTcp692
-      title: Allow TCP port 692 traffic
-      section: NETWORKING
-      boolean_group: FIREWALL
-    - name: enableUdp692
-      title: Allow UDP port 692 traffic
-      section: NETWORKING
-      boolean_group: FIREWALL
-    - name: ipForward
-      title: IP forwarding
-      tooltip: 'Forwarding allows the instance to help route packets. <a href="https://cloud.google.com/compute/docs/networking#canipforward">Learn more</a>'
       section: NETWORKING
       level: 1
   sections:
