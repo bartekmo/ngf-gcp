@@ -28,52 +28,59 @@ description:
     url: 'https://www.barracuda.com/'
   descriptionHtml: >-
     <p>Barracuda Control Center allows for centralized management of hundreds of
-
-          Barracuda NextGen Firewalls regardless of their location and form
+    Barracuda NextGen Firewalls regardless of their location and form
     factor.
 
-          Centrally managed firewalls benefit from shared configuration,
-    easy-to-use
-
-          VPN tunnels editor, consistent policies and better administrative
-    privilege
-
-          control. One stop monitoring features include central status
-    dashboard,
-
-          aggregated logs, statistics and many others.
-
+    Centrally managed firewalls benefit from shared configuration,
+    easy-to-use VPN tunnels editor, consistent policies and better administrative
+    privilege control. One stop monitoring features include central status
+    dashboard, aggregated logs, statistics and many others.
     </p>
 
-    <p>
-
-    The Barracuda NextGen Firewall F-Series fills the functional gaps between
-
-          cloud infrastructure security and a defense-in-depth strategy by
-    providing
-
-          protection where the application and data reside, rather than solely
-    where
-
-          the connection terminates. Because of the isolation between VMs,
-    tenants,
-
-          and virtual networks, the Barracuda NextGen Firewall F-Series operates
-    just
-
-          as if it were a physical device bridging connections between
-    application
-
-          servers in a network DMZ and your ISP’s router.
-
+    <p>The Barracuda NextGen Firewall F-Series fills the functional gaps between
+    cloud infrastructure security and a defense-in-depth strategy by
+    providing protection where the application and data reside, rather than solely
+    where the connection terminates. Because of the isolation between VMs,
+    tenants, and virtual networks, the Barracuda NextGen Firewall F-Series operates
+    just as if it were a physical device bridging connections between
+    application servers in a network DMZ and your ISP’s router.
     </p>
   logo: '@media/barracuda-nextgen-cc-byol_store.png'
   tagline: Single pane of glass for your Barracuda NextGen Firewalls
   title: Barracuda NextGen Control Center
   url: 'https://www.barracuda.com/googlecloud'
   version: 7.2.0-158-20171219
+  eulaUrl: https://www.barracuda.com/legal/Software-License-Agreement
+  documentations:
+  - title: Getting Started Guide
+    url: https://campus.barracuda.com/doc/73719940/
+    description: How to deploy Barracuda NextGen Firewall in Google Cloud
+    destinations:
+    - DESTINATION_SOLUTION_DETAILS
+    - DESTINATION_POST_DEPLOY
+  - title: Barracuda Campus (User Guide)
+    url: https://campus.barracuda.com/doc/73719434/
+    description: Barracuda NextGen Control Center Technical Documentation
+    destinations:
+    - DESTINATION_SOLUTION_DETAILS
+    - DESTINATION_POST_DEPLOY
   support:
     - title: Support
+      shortDescription: Email and Phone Support offered 24x7 without any phone trees. You will actually speak to a live person.
+      descriptionHtml: |-
+        <p>Support Phone Numbers:</p>
+        <ul>
+        <li>North America - 408 342 5300</li>
+        <li>UK - +44 (0) 1256 300 102</li>
+        <li>Australia - +612 8019 7254</li>
+        <li>China - +86 400 720 8200</li>
+        <li>Japan - +81 3 5436 6236</li>
+        <li>India - +91 804 904 8600</li>
+        <li>Germany, Austria, Switzerland - +43 (0) 508 100 800</li>
+        </ul>
+        <p>Support Email: <a href="mailto:support@barracuda.com">support@barracuda.com</a></p>
+
+      url: https://www.barracuda.com/support
   icon: '@media/barracuda-nextgen-cc-byol_small.png'
   softwareGroups:
     - type: SOFTWARE_GROUP_OS
@@ -126,24 +133,19 @@ runtime:
         value: root
       - label: Admin password (Temporary)
         value: '{{ outputs().password0 }}'
+      - label: Management IP
+        value: '{{ outputs().vmPublicIP }}'
       - label: Instance
         value: '<a href="{{ consoleUrl(outputs().vmSelfLink) }}">{{ outputs().vmName }}</a>'
-      - label: Instance zone
-        value: '{{ properties().zone }}'
-      - label: Instance machine type
-        value: '{{ properties().machineType }}'
-  primaryButton:
-    label: SSH
-    type: TYPE_GCE_VM_SSH
-    action: '{{ outputs().vmSelfLink }}'
   suggestedActions:
     - heading: Request a license
       description: 'This is a BYOL solution which requires a valid license to use. <a href="https://www.barracuda.com/purchase/evaluation/product/bnccld">Request a 30-days evaluation license</a>'
+    - heading: Connect using NextGen Admin
+      description: 'Use NextGen Admin tool available from <a href="https://dlportal.barracudanetworks.com/#/search?page=1&type=3">Barracuda Download Portal</a> to connect to, activate, and manage your Control Center'
     - heading: Change the temporary password
-      description: 'For additional security, it is recommended that you change the password.'
+      description: 'For additional security, it is recommended that you change the password. <a href="https://campus.barracuda.com/doc/73719620/">Learn more</a>'
     - heading: Assign a static external IP address to your VM instance
       description: 'An ephemeral external IP address has been assigned to the VM instance. If you require a static external IP address, you may promote the address to static. <a href="https://cloud.google.com/compute/docs/instances-and-network#promote_ephemeral_ip">Learn more</a>'
-      showIf: '{{ properties().externalIP == "Ephemeral" }}'
 annotations:
   autogenSpecType: SINGLE_VM
   vmImage0: 'https://www.googleapis.com/compute/v1/projects/barracuda-release/global/images/cudangccbyol-v720-158-20171219'

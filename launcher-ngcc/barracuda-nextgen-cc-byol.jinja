@@ -35,9 +35,9 @@ resources:
         - email: default
           scopes:
             - 'https://www.googleapis.com/auth/cloud.useraccounts.readonly'
-            - 'https://www.googleapis.com/auth/devstorage.read_only'
             - 'https://www.googleapis.com/auth/logging.write'
             - 'https://www.googleapis.com/auth/monitoring.write'
+            - 'https://www.googleapis.com/auth/compute.readonly'
       metadata:
         items:
           - key: ngcc_initial_user_password
@@ -89,6 +89,8 @@ outputs:
     value: $(ref.{{ instanceName }}.id)
   - name: vmInternalIP
     value: $(ref.{{ name }}.internalIP)
+  - name: vmPublicIP
+    value: $(ref.{{ instanceName }}.networkInterfaces[0].accessConfigs[0].natIP)
   - name: vmName
     value: {{ instanceName }}
   - name: vmSelfLink
