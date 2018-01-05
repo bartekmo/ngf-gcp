@@ -1,0 +1,204 @@
+{% import "path_utils.jinja" as path_utils with context %}
+
+{% set project = env["project"] %}
+{% set deployment = env["deployment"] %}
+{% set name = "%s-vm-tmpl" % env["name"] %}
+{% set instanceName = properties["instanceName"] %}
+{% set zone = properties["zone"] %}
+{% set machineType = properties["machineType"] %}
+{% set network = path_utils.networkPath(properties["network"]) %}
+{% set subnetwork = properties["subnetwork"] %}
+{% set bootDiskType = properties["bootDiskType"] %}
+{% set bootDiskSizeGb = properties["bootDiskSizeGb"] %}
+{% set hasExternalIP = "Ephemeral" %}
+{# Software status only works if the VM has an external IP. #}
+{% set enableStatusWaiter = hasExternalIP %}
+{% set canIpForward = "On" %}
+{% if properties["releaseVersion"] == '7.2.0 (EA1)'%}
+  {% set imgVersion = "v720-158-20171213"  %}
+{% elif properties["releaseVersion"] == '7.1.1 (LTS)' %}
+  {% set imgVersion = "v711-056-hf844-hf846-20171004" %}
+{% elif properties["releaseVersion"] == '7.0.3' %}
+  {% set imgVersion = "v703-087-20170804" %}
+{% else %}
+  {% set imgVersion = "null" %}
+{% endif %}
+{% if properties["ccAddress"]!='' and properties["ccCluster"]!='' and properties["ccRange"]!=0 and properties["ccParRetrievalKey"]!='' and properties["releaseVersion"]=='7.2.0 (EA1)' %}
+  {% set ccManaged = true %}
+{% else %}
+  {% set ccManaged = false %}
+{% endif %}
+
+resources:
+  - name: {{ name }}
+    type: vm_instance.py
+    properties:
+      instanceName: {{ instanceName }}
+      sourceImage: https://www.googleapis.com/compute/v1/projects/barracuda-release/global/images/cudangfbyol-{{ imgVersion }}
+      zone: {{ zone }}
+      machineType: {{ machineType }}
+      network: {{ network }}
+      {% if subnetwork %}
+      subnetwork: {{ subnetwork }}
+      {% endif %}
+      bootDiskType: {{ bootDiskType }}
+      bootDiskSizeGb: {{ bootDiskSizeGb }}
+      hasExternalIP: {{ hasExternalIP }}
+      canIpForward: {{ canIpForward }}
+      serviceAccounts:
+        - email: default
+          scopes:
+            - 'https://www.googleapis.com/auth/cloud.useraccounts.readonly'
+            - 'https://www.googleapis.com/auth/logging.write'
+            - 'https://www.googleapis.com/auth/monitoring.write'
+            - 'https://www.googleapis.com/auth/compute.readonly'
+      metadata:
+        items:
+          - key: ngfw_initial_user_password
+            value: $(ref.generated-password-0.password)
+          - key: startup-script
+            value: |
+              #!/bin/bash
+      {% if ccManaged %}
+              echo {{ properties["ccParRetrievalKey"]}} | /opt/phion/bin/getpar -a {{ properties["ccAddress"]}} -r {{ properties["ccRange"] }} -c {{ properties["ccCluster"] }} -b {{ properties["instanceName"]}} -d /opt/phion/update/box.par -s --verbosity 10 >> /tmp/getpar.log
+      {% endif %}
+      {% if properties["enableSsh"] %}
+              /opt/phion/bin/editconf -f /opt/phion/config/configroot/boxother/ssh.conf -p PROOT -v yes >> /tmp/editconf.log
+              cp /opt/phion/config/configroot/boxother/ssh.conf /opt/phion/config/active/ssh.conf
+      {% endif %}
+      {% if properties["mgmtMode"] == "Web UI" %}
+              /opt/phion/bin/editconf -f /opt/phion/config/configroot/box.conf -p ISMANAGEDBYWEBUI -v y >> /tmp/editconf.log
+              /opt/phion/bin/editconf -f /opt/phion/config/active/box.conf -p ISMANAGEDBYWEBUI -v y >> /tmp/editconf.log
+              /home/bfw/code/firmware/commitNGInstallation && rm -f /home/bfw/code/firmware/webui-install-init.pending
+              /opt/phion/bin/webuicmd db2conf revsql 2> /dev/null| mysql -t config
+      {% endif %}
+      tags:
+        items:
+          - {{ env["deployment"] }}-ngfw
+  - name: generated-password-0
+    type: password.py
+    properties:
+      length: 8
+      includeSymbols: True
+  {% if properties["enableTcp807"] %}
+  - name: {{ deployment }}-tcp-807
+    type: compute.v1.firewall
+    properties:
+      network: {{ network }}
+      priority: 900
+      {% if properties.get("adminSourceRanges") %}
+      sourceRanges:
+        {% for source in properties["adminSourceRanges"].split(',') %}
+        - '{{ source | trim }}'
+        {% endfor %}
+      {% else %}
+      sourceRanges: ["0.0.0.0/0"]
+      {% endif %}
+      targetTags: ["{{ deployment }}-ngfw"]
+      allowed:
+        - IPProtocol: TCP
+          ports: ["807"]
+  {% endif %}
+  {% if properties["enableTcp80"] %}
+  - name: {{ deployment }}-tcp-80
+    type: compute.v1.firewall
+    properties:
+      network: {{ network }}
+      sourceRanges: ["0.0.0.0/0"]
+      targetTags: ["{{ deployment }}-ngfw"]
+      allowed:
+        - IPProtocol: TCP
+          ports: ["80"]
+  {% endif %}
+  {% if properties["enableTcp691"] %}
+  - name: {{ deployment }}-tcp-691
+    type: compute.v1.firewall
+    properties:
+      network: {{ network }}
+      sourceRanges: ["0.0.0.0/0"]
+      targetTags: ["{{ deployment }}-ngfw"]
+      allowed:
+        - IPProtocol: TCP
+          ports: ["691"]
+        - IPProtocol: UDP
+          ports: ["691"]
+  {% endif %}
+  {% if properties["enableTcp443"] %}
+  - name: {{ deployment }}-tcp-443
+    type: compute.v1.firewall
+    properties:
+      network: {{ network }}
+      sourceRanges: ["0.0.0.0/0"]
+      targetTags: ["{{ deployment }}-ngfw"]
+      allowed:
+        - IPProtocol: TCP
+          ports: ["443"]
+  {% endif %}
+  {% if properties["enableSsh"] %}
+  - name: {{ deployment }}-ssh
+    type: compute.v1.firewall
+    properties:
+      network: {{ network }}
+      priority: 900
+      {% if properties.get("adminSourceRanges") %}
+      sourceRanges:
+        {% for source in properties["adminSourceRanges"].split(',') %}
+        - '{{ source | trim }}'
+        {% endfor %}
+      {% else %}
+      sourceRanges: ["0.0.0.0/0"]
+      {% endif %}
+      targetTags: ["{{ deployment }}-ngfw"]
+      allowed:
+        - IPProtocol: TCP
+          ports: ["22"]
+  {% endif %}
+  {% if properties["enableAllowAll"] %}
+  - name: {{ deployment }}-allow-all
+    type: compute.v1.firewall
+    properties:
+      network: {{ network }}
+      priority: 1100
+      sourceRanges: ["0.0.0.0/0"]
+      targetTags: ["{{ deployment }}-ngfw"]
+      allowed:
+        - IPProtocol: TCP
+        - IPProtocol: UDP
+        - IPProtocol: ICMP
+        - IPProtocol: ESP
+        - IPProtocol: AH
+  {% if properties.get("adminSourceRanges") %}
+  - name: {{ deployment }}-deny-mgmt-non-acl
+    type: compute.v1.firewall
+    properties:
+      network: {{ network }}
+      priority: 901
+      sourceRanges: ["0.0.0.0/0"]
+      targetTags: ["{{ deployment }}-ngfw"]
+      allowed:
+        - IPProtocol: TCP
+          ports: ["807", "22"]
+      {% if properties["mgmtMode"] == "Web UI" %}
+        - IPProtocol: TCP
+          ports: ["443"]
+      {% endif %}
+  {% endif %}
+  {% endif %}
+
+outputs:
+  - name: deployment
+    value: {{ deployment }}
+  - name: password0
+    value: $(ref.generated-password-0.password)
+  - name: project
+    value: {{ project }}
+  - name: vmId
+    value: $(ref.{{ instanceName }}.id)
+  - name: vmInternalIP
+    value: $(ref.{{ name }}.internalIP)
+  - name: vmPublicIP
+    value: $(ref.{{ instanceName }}.networkInterfaces[0].accessConfigs[0].natIP)
+  - name: vmName
+    value: {{ instanceName }}
+  - name: vmSelfLink
+    value: $(ref.{{ instanceName }}.selfLink)

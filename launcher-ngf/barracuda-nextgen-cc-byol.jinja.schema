@@ -1,0 +1,131 @@
+imports:
+  - name: common.py
+    path: common/common.py
+  - name: default.py
+    path: common/default.py
+  - name: password.py
+    path: common/password.py
+  - name: path_utils.jinja
+    path: common/path_utils.jinja
+  - name: vm_instance.py
+    path: common/vm_instance.py
+
+info:
+  version: '2.0'
+  title: Barracuda NextGen Firewall Template
+
+required:
+  - instanceName
+  - zone
+  - machineType
+  - network
+  - bootDiskType
+  - bootDiskSizeGb
+
+properties:
+  instanceName:
+    type: string
+    default: barracuda-ngfw
+  zone:
+    type: string
+    default: us-central1-f
+    x-googleProperty:
+      type: GCE_ZONE
+  machineType:
+    type: string
+    default: n1-standard-1
+    x-googleProperty:
+      type: GCE_MACHINE_TYPE
+      zoneProperty: zone
+      gceMachineType:
+        minCpu: 1
+        minRamGb: 2
+  network:
+    type: string
+    default: default
+    x-googleProperty:
+      type: GCE_NETWORK
+  subnetwork:
+    type: string
+    x-googleProperty:
+      type: GCE_SUBNETWORK
+      zoneProperty: zone
+      gceSubnetwork:
+        networkProperty: network
+  bootDiskType:
+    type: string
+    default: pd-ssd
+    x-googleProperty:
+      type: GCE_DISK_TYPE
+      zoneProperty: zone
+  bootDiskSizeGb:
+    type: integer
+    default: 80
+    minimum: 80
+    maximum: 10000
+    x-googleProperty:
+      type: GCE_DISK_SIZE
+      gceDiskSize:
+        diskTypeProperty: bootDiskType
+  adminSourceRanges:
+    type: string
+  releaseVersion:
+    type: string
+    enum:
+      - '7.2.0 (EA1)'
+      - '7.1.1 (LTS)'
+      - '7.0.3'
+    default: '7.2.0 (EA1)'
+  enableTcp807:
+    type: boolean
+    default: True
+  enableTcp80:
+    type: boolean
+    default: True
+  enableTcp691:
+    type: boolean
+    default: True
+  enableTcp443:
+    type: boolean
+    default: True
+  enableAllowAll:
+    type: boolean
+    default: false
+  enableSsh:
+    type: boolean
+    default: false
+  ccAddress:
+    type: string
+    default: ''
+  ccRange:
+    type: integer
+    default: 0
+  ccCluster:
+    type: string
+    default: ''
+  ccParRetrievalKey:
+    type: string
+    default: ''
+  mgmtMode:
+    type: string
+    enum:
+      - 'Web UI'
+      - 'NextGen Admin'
+      - 'Centrally Managed via NGCC'
+    default: 'NextGen Admin'
+
+outputs:
+  deployment:
+    type: string
+  password0:
+    type: string
+  project:
+    type: string
+  vmId:
+    type: string
+  vmInternalIP:
+    type: string
+  vmName:
+    type: string
+  vmSelfLink:
+    type: string

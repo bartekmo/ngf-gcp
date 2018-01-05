@@ -1,0 +1,6 @@
+imports:
+- path: barracuda-nextgen-cc-byol.jinja
+
+resources:
+- name: barracuda-nextgen-cc-byol
+  type: barracuda-nextgen-cc-byol.jinja

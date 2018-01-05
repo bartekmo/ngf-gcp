@@ -1,0 +1,215 @@
+description:
+  author:
+    title: 'Barracuda Networks, Inc.'
+    descriptionHtml: >-
+      The Barracuda NextGen Firewall F-Series fills the functional gaps between
+      cloud infrastructure security and a defense-in-depth strategy by providing
+      protection where the application and data reside, rather than solely where
+      the connection terminates. Because of the isolation between VMs, tenants,
+      and virtual networks, the Barracuda NextGen Firewall F-Series operates just
+      as if it were a physical device bridging connections between application
+      servers in a network DMZ and your ISP’s router.
+
+
+
+      Beyond its powerful network firewall, high availability, and VPN
+      technologies, the Barracuda NextGen Firewall F-Series integrates
+      a comprehensive set of next-generation firewall technologies, including
+      Application Control, IPS, anti-malware, network access control enforcement,
+      and comprehensive user awareness.
+
+
+
+      The Barracuda NextGen Firewall F-Series meets enterprise requirements of
+      massive scalability, efficient configuration and lifecycle management
+      across dispersed networks, and performance guarantees for business-critical
+      applications.
+    shortDescription: 'Barracuda Networks offers industry-leading solutions designed to solve mainstream IT problems efficiently and cost-effectively, while maintaining a level of customer support and satisfaction second to none.'
+    url: 'https://www.barracuda.com/'
+  descriptionHtml: >-
+    <p>The Barracuda NextGen Firewall F-Series fills the functional gaps between
+    cloud infrastructure security and a defense-in-depth strategy by
+    providing protection where the application and data reside, rather than solely
+    where the connection terminates. Because of the isolation between VMs,
+    tenants, and virtual networks, the Barracuda NextGen Firewall F-Series operates
+    just as if it were a physical device bridging connections between
+    application servers in a network DMZ and your ISP’s router.
+    </p>
+  logo: '@media/barracuda-nextgen-cc-byol_store.png'
+  tagline: Next Generation Firewall for Distributed Enterprises
+  title: Barracuda NextGen Firewall
+  url: 'https://www.barracuda.com/googlecloud'
+  version: 7.2.0-158-20171219
+  eulaUrl: https://www.barracuda.com/legal/Software-License-Agreement
+  documentations:
+  - title: Getting Started Guide
+    url: https://campus.barracuda.com/doc/73719940/
+    description: How to deploy Barracuda NextGen Firewall in Google Cloud
+    destinations:
+    - DESTINATION_SOLUTION_DETAILS
+    - DESTINATION_POST_DEPLOY
+  - title: Barracuda Campus (User Guide)
+    url: https://campus.barracuda.com/doc/73719434/
+    description: Barracuda NextGen Control Center Technical Documentation
+    destinations:
+    - DESTINATION_SOLUTION_DETAILS
+    - DESTINATION_POST_DEPLOY
+  support:
+    - title: Support
+      shortDescription: Email and Phone Support offered 24x7 without any phone trees. You will actually speak to a live person.
+      descriptionHtml: |-
+        <p>Support Phone Numbers:</p>
+        <ul>
+        <li>North America - 408 342 5300</li>
+        <li>UK - +44 (0) 1256 300 102</li>
+        <li>Australia - +612 8019 7254</li>
+        <li>China - +86 400 720 8200</li>
+        <li>Japan - +81 3 5436 6236</li>
+        <li>India - +91 804 904 8600</li>
+        <li>Germany, Austria, Switzerland - +43 (0) 508 100 800</li>
+        </ul>
+        <p>Support Email: <a href="mailto:support@barracuda.com">support@barracuda.com</a></p>
+
+      url: https://www.barracuda.com/support
+  icon: '@media/barracuda-nextgen-cc-byol_small.png'
+  softwareGroups:
+    - type: SOFTWARE_GROUP_OS
+      software:
+        - title: Barracuda NextGen Firewall
+          version: 7.2.0
+input:
+  properties:
+    - name: instanceName
+      title: Instance Name
+    - name: releaseVersion
+      title: Release version
+    - name: zone
+      title: Zone
+    - name: machineType
+      title: Machine type
+    - name: bootDiskType
+      title: Boot disk type
+      section: BOOT_DISK
+      level: 1
+    - name: bootDiskSizeGb
+      title: Boot disk size in GB
+      section: BOOT_DISK
+      level: 1
+    - name: network
+      title: Network name
+      section: NETWORKING
+    - name: subnetwork
+      title: Subnetwork name
+      section: NETWORKING
+    - name: enableTcp80
+      title: Allow HTTP traffic
+      section: NETWORKING
+      boolean_group: FIREWALL
+    - name: enableTcp691
+      title: Allow TINA VPN
+      section: NETWORKING
+      boolean_group: FIREWALL
+    - name: enableTcp443
+      title: Allow SSLVPN/CudaLaunch traffic
+      section: NETWORKING
+      boolean_group: FIREWALL
+    - name: enableAllowAll
+      title: Allow all traffic from Internet
+      section: NETWORKING
+      boolean_group: FIREWALL
+    - name: mgmtMode
+      title: Management Mode
+      section: MANAGEMENT
+    - name: enableTcp807
+      title: Allow management from Internet
+      section: MANAGEMENT
+      boolean_group: MGMTBOOLS
+    - name: enableSsh
+      title: Enable SSH console
+      section: MANAGEMENT
+      boolean_group: MGMTBOOLS
+    - name: adminSourceRanges
+      title: ACL for management traffic
+      tooltip: 'Management access is only allowed from sources within these IP address ranges. Use CIDR notation when entering ranges. <a href="https://cloud.google.com/compute/docs/networking#firewalls">Learn more</a>'
+      placeholder: '0.0.0.0/0, 192.169.0.2/24'
+      section: MANAGEMENT
+    - name: ccAddress
+      title: Control Center IP address
+      section: NGCC
+      placeholder: 1.2.3.4
+      level: 1
+    - name: ccRange
+      title: Control Center Range
+      section: NGCC
+      placeholder: 1
+      level: 1
+    - name: ccCluster
+      title: Control Center Cluster name
+      section: NGCC
+      level: 1
+    - name: ccParRetrievalKey
+      title: PAR Retrieval Key for the box
+      section: NGCC
+      level: 1
+
+
+
+  sections:
+    - name: NETWORKING
+      title: Networking
+    - name: MANAGEMENT
+      title: Management Settings
+    - name: BOOT_DISK
+      title: Boot Disk
+      tooltip: Each instance requires a disk to boot from.
+    - name: NGCC
+      title: Control Center
+      subtext: Fill in all the data in this section to deploy a centrally managed instance (requires version 7.2.0 or newer).
+  boolean_groups:
+    - name: FIREWALL
+      title: Firewall
+      tooltip: 'By default all incoming traffic from outside a network is blocked. Select the type of network traffic you want to allow. <a href="https://cloud.google.com/compute/docs/networking#firewalls">Learn more</a>'
+      subtext: ''
+    - name: MGMTBOOLS
+      title: 'Management access'
+
+runtime:
+  deployingMessage: Deployment can take several minutes to complete.
+  applicationTable:
+    rows:
+      - label: Admin user
+        value: root
+      - label: Admin password (Temporary)
+        value: '{{ outputs().password0 }}'
+      - label: Management IP
+        value: '{{ outputs().vmPublicIP }}'
+        showIf: '{{ properties().mgmtMode != "Web UI" }}'
+      - label: Management IP
+        value: '<a href="https://{{ outputs().vmPublicIP }}:443">{{ outputs().vmPublicIP }}</a>"'
+        showIf: '{{ properties().mgmtMode == "Web UI" }}'
+      - label: Instance
+        value: '<a href="{{ consoleUrl(outputs().vmSelfLink) }}">{{ outputs().vmName }}</a>'
+  primaryButton:
+    label: Web Console
+    type: TYPE_URL
+    action: 'https://{{ externalIp(outputs().vmSelfLink) }}:443/'
+    showIf: '{{ properties().mgmtMode == "Web UI" }}'
+  secondaryButton:
+    label: SSH
+    type: TYPE_GCE_VM_SSH
+    action: '{{ outputs().vmSelfLink }}'
+    showIf: '{{ properties().enableSsh }}'
+  suggestedActions:
+    - heading: Request a license
+      description: 'This is a BYOL solution which requires a valid license to use. <a href="https://www.barracuda.com/purchase/evaluation/product/bnccld">Request a 30-days evaluation license</a>'
+    - heading: Connect using NextGen Admin
+      description: 'Use NextGen Admin tool available from <a href="https://dlportal.barracudanetworks.com/#/search?page=1&type=3">Barracuda Download Portal</a> to connect to, activate, and manage your Control Center'
+      showIf: '{{ properties().mgmtMode == "NexGen Admin" }}'
+    - heading: Change the temporary password
+      description: 'For additional security, it is recommended that you change the password. <a href="https://campus.barracuda.com/doc/73719620/">Learn more</a>'
+    - heading: Assign a static external IP address to your VM instance
+      description: 'An ephemeral external IP address has been assigned to the VM instance. If you require a static external IP address, you may promote the address to static. <a href="https://cloud.google.com/compute/docs/instances-and-network#promote_ephemeral_ip">Learn more</a>'
+annotations:
+  autogenSpecType: SINGLE_VM
+  vmImage0: 'https://www.googleapis.com/compute/v1/projects/barracuda-release/global/images/cudangccbyol-v720-158-20171219'
+metadata_version: v1

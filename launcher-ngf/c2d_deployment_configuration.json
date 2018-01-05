@@ -1,0 +1,7 @@
+{
+  "defaultDeploymentType": "SINGLE_VM",
+  "imageName": "cudangccbyol-v720-158-20171219",
+  "projectId": "barracuda-release",
+  "templateName": "nonexistent_template",
+  "useSolutionPackage": true
+}
