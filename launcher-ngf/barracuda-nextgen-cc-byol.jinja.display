@@ -127,6 +127,7 @@ input:
       boolean_group: MGMTBOOLS
     - name: enableSsh
       title: Enable SSH console
+      tooltip: Only SSH connections from 3rd party tools using key authentication will be enabled
       section: MANAGEMENT
       boolean_group: MGMTBOOLS
     - name: adminSourceRanges
@@ -195,17 +196,11 @@ runtime:
     type: TYPE_URL
     action: 'https://{{ externalIp(outputs().vmSelfLink) }}:443/'
     showIf: '{{ properties().mgmtMode == "Web UI" }}'
-  secondaryButton:
-    label: SSH
-    type: TYPE_GCE_VM_SSH
-    action: '{{ outputs().vmSelfLink }}'
-    showIf: '{{ properties().enableSsh }}'
   suggestedActions:
     - heading: Request a license
       description: 'This is a BYOL solution which requires a valid license to use. <a href="https://www.barracuda.com/purchase/evaluation/product/bnccld">Request a 30-days evaluation license</a>'
-    - heading: Connect using NextGen Admin
-      description: 'Use NextGen Admin tool available from <a href="https://dlportal.barracudanetworks.com/#/search?page=1&type=3">Barracuda Download Portal</a> to connect to, activate, and manage your Control Center'
-      showIf: '{{ properties().mgmtMode == "NexGen Admin" }}'
+    - heading: Connect using NextGen Admin or Web UI
+      description: 'Use NextGen Admin tool available from <a href="https://dlportal.barracudanetworks.com/#/search?page=1&type=3">Barracuda Download Portal</a> or the Web UI to connect to, activate, and manage your NextGen Firewall instance'
     - heading: Change the temporary password
       description: 'For additional security, it is recommended that you change the password. <a href="https://campus.barracuda.com/doc/73719620/">Learn more</a>'
     - heading: Assign a static external IP address to your VM instance
