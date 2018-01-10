@@ -63,12 +63,13 @@ resources:
               echo {{ properties["ccParRetrievalKey"]}} | /opt/phion/bin/getpar -a {{ properties["ccAddress"]}} -r {{ properties["ccRange"] }} -c {{ properties["ccCluster"] }} -b {{ properties["instanceName"]}} -d /opt/phion/update/box.par -s --verbosity 10 >> /tmp/getpar.log
       {% endif %}
       {% if properties["enableSsh"] %}
-              /opt/phion/bin/editconf -f /opt/phion/config/configroot/boxother/ssh.conf -p PROOT -v yes >> /tmp/editconf.log
+              sed -i -- 's/PROOT\s*=\s*no/PROOT = yes/g' /opt/phion/config/configroot/boxother/ssh.conf
               cp /opt/phion/config/configroot/boxother/ssh.conf /opt/phion/config/active/ssh.conf
+              /opt/phion/modules/box/boxother/ssh/bin/activate
       {% endif %}
       {% if properties["mgmtMode"] == "Web UI" %}
-              /opt/phion/bin/editconf -f /opt/phion/config/configroot/box.conf -p ISMANAGEDBYWEBUI -v y >> /tmp/editconf.log
-              /opt/phion/bin/editconf -f /opt/phion/config/active/box.conf -p ISMANAGEDBYWEBUI -v y >> /tmp/editconf.log
+              sed -i -- 's/ISMANAGEDBYWEBUI\s*=\s*n/ISMANAGEDBYWEBUI = y/g' /opt/phion/config/configroot/box.conf
+              cp /opt/phion/config/configroot/box.conf /opt/phion/config/active/box.conf
               /home/bfw/code/firmware/commitNGInstallation && rm -f /home/bfw/code/firmware/webui-install-init.pending
               /opt/phion/bin/webuicmd db2conf revsql 2> /dev/null| mysql -t config
       {% endif %}

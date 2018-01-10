@@ -120,6 +120,7 @@ input:
     - name: mgmtMode
       title: Management Mode
       section: MANAGEMENT
+      tooltip: WebUI and automatic binding to NGCC are supported for version 7.2.0 and later.
     - name: enableTcp807
       title: Allow management from Internet
       section: MANAGEMENT
