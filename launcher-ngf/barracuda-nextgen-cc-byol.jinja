@@ -173,7 +173,7 @@ resources:
       priority: 901
       sourceRanges: ["0.0.0.0/0"]
       targetTags: ["{{ deployment }}-ngfw"]
-      allowed:
+      denied:
         - IPProtocol: TCP
           ports: ["807", "22"]
       {% if properties["mgmtMode"] == "Web UI" %}
