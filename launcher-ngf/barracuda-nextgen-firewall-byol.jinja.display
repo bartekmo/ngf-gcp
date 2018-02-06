@@ -35,7 +35,7 @@ description:
     just as if it were a physical device bridging connections between
     application servers in a network DMZ and your ISP’s router.
     </p>
-  logo: '@media/barracuda-nextgen-cc-byol_store.png'
+  logo: '@media/barracuda_store.png'
   tagline: Next Generation Firewall for Distributed Enterprises
   title: Barracuda NextGen Firewall
   url: 'https://www.barracuda.com/googlecloud'
@@ -71,7 +71,7 @@ description:
         <p>Support Email: <a href="mailto:support@barracuda.com">support@barracuda.com</a></p>
 
       url: https://www.barracuda.com/support
-  icon: '@media/barracuda-nextgen-cc-byol_small.png'
+  icon: '@media/barracuda_small.png'
   softwareGroups:
     - type: SOFTWARE_GROUP_OS
       software:
@@ -198,7 +198,7 @@ runtime:
     showIf: '{{ properties().mgmtMode == "Web UI" }}'
   suggestedActions:
     - heading: Request a license
-      description: 'This is a BYOL solution which requires a valid license to use. <a href="https://www.barracuda.com/purchase/evaluation/product/bnccld">Request a 30-days evaluation license</a>'
+      description: 'This is a BYOL solution which requires a valid license to use. <a href="https://www.barracuda.com/purchase/evaluation/product/bngcld">Request a 30-days evaluation license</a>'
     - heading: Connect using NextGen Admin or Web UI
       description: 'Use NextGen Admin tool available from <a href="https://dlportal.barracudanetworks.com/#/search?page=1&type=3">Barracuda Download Portal</a> or the Web UI to connect to, activate, and manage your NextGen Firewall instance'
     - heading: Change the temporary password
@@ -207,5 +207,5 @@ runtime:
       description: 'An ephemeral external IP address has been assigned to the VM instance. If you require a static external IP address, you may promote the address to static. <a href="https://cloud.google.com/compute/docs/instances-and-network#promote_ephemeral_ip">Learn more</a>'
 annotations:
   autogenSpecType: SINGLE_VM
-  vmImage0: 'https://www.googleapis.com/compute/v1/projects/barracuda-release/global/images/cudangccbyol-v720-158-20171219'
+  vmImage0: 'https://www.googleapis.com/compute/v1/projects/barracuda-release/global/images/cudangfbyol-v720-158-20180117'
 metadata_version: v1
